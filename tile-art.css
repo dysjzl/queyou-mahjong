@@ -1,0 +1,50 @@
+/* Traditional ivory fronts and jade backs; dimensions belong to the table layout. */
+.tile.classic-tile{
+  background:linear-gradient(112deg,#fff 2%,#fffffa 48%,#f0f3e8 100%);
+  border:1px solid #fffff5;
+  border-radius:11% / 8%;
+  box-shadow:inset 1px 1px 1px #fff,inset -2px -2px 2px #d5ddcb,0 3px 0 #dce9c6,0 6px 0 #159b4c,0 7px 0 #066538,1px 9px 5px #073c3c55;
+  overflow:visible;
+  isolation:isolate;
+}
+.tile.classic-tile .tile-art{
+  display:block;
+  width:100%;
+  height:100%;
+  flex:none;
+  pointer-events:none;
+  user-select:none;
+  overflow:visible;
+}
+.hand .tile.classic-tile{touch-action:manipulation}
+.hand .tile.classic-tile:disabled{opacity:1;filter:brightness(.97)}
+.hand .tile.classic-tile.illegal{opacity:1;filter:brightness(.87) saturate(.85)}
+.hand .tile.classic-tile.selected{
+  box-shadow:inset 1px 1px 1px #fff,inset -2px -2px 2px #d5ddcb,0 3px 0 #e5e9bd,0 6px 0 #159b4c,0 7px 0 #066538,0 0 0 2px #ffdf76,0 0 16px #ffe7a15c;
+}
+.hand .tile.classic-tile.hinted{
+  box-shadow:inset 1px 1px 1px #fff,inset -2px -2px 2px #d5ddcb,0 3px 0 #dce9c6,0 6px 0 #159b4c,0 7px 0 #066538,0 0 0 2px #ffd86c;
+}
+.discard-zone .tile.classic-tile,.opponent-group .tile.classic-tile,.meld .tile.classic-tile{
+  box-shadow:inset 1px 1px 0 #fff,inset -1px -1px 1px #d5ddcb,0 2px 0 #159649,0 3px 1px #075d3659;
+}
+.tile.classic-tile.hidden-tile{
+  background:linear-gradient(110deg,#24cd68,#0da24e 56%,#087d3e)!important;
+  border-color:#b5eab5!important;
+  box-shadow:inset 1px 1px 1px #75ef8d,inset -2px -2px 2px #057b3d,0 2px 0 #e3edcf,0 4px 0 #08733e,0 5px 2px #084a3a55;
+}
+.tile.classic-tile.hidden-tile:after{
+  inset:3px;
+  border:1px solid #b9f0b952;
+  border-radius:2px;
+  background:repeating-linear-gradient(45deg,transparent 0 3px,#c6f8b513 3px 4px);
+}
+.back-tile{
+  background:linear-gradient(105deg,#22c963,#10a44d 58%,#08793e);
+  border-color:#c6f0bc;
+  box-shadow:inset 1px 1px 0 #75e995,inset -1px -1px 1px #087c3c,0 2px 0 #e2eccb,0 3px 0 #11663a;
+}
+.back-tile:after{
+  border-color:#adf0b64d;
+  background:repeating-linear-gradient(45deg,transparent 0 3px,#bff5b412 3px 4px);
+}

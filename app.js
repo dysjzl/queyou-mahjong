@@ -1,5 +1,6 @@
 import {SUITS,tileName,suitOf,createGame,chooseQue,chooseExchangeIndices,exchangeTiles,legalDiscards,bestDiscard,discard,respond,step,selfWin,concealedKongs,concealedKong,isWinning} from './engine.js';
 import {RoomConnection,backendURL} from './network.js';
+import {renderTileFace} from './tile-art.js';
 
 const $=s=>document.querySelector(s);
 const icons={
@@ -38,14 +39,9 @@ let practiceGame=null,onlineBusy=false,onlineChoice=[],onlineError='';
 const rooms=[{id:'easy',name:'新手入门场',short:'入门',tag:'轻松上手',desc:'慢慢熟悉，一起打好第一局。',level:'新手友好',base:100,difficulty:'easy',art:['一','二','三']},{id:'normal',name:'休闲练习场',short:'休闲',tag:'人气之选',desc:'不赶时间，享受每一次摸牌。',level:'自在练习',base:200,difficulty:'normal',art:['發','發','發']},{id:'smart',name:'高手切磋场',short:'进阶',tag:'以牌会友',desc:'多想一步，和高手过过招。',level:'进阶挑战',base:500,difficulty:'smart',art:['九','九','九']}];
 
 function tile(t,classes='',button=false,disabled=false,index=-1){
-  if(t<0)return '<span class="tile hidden-tile" aria-label="暗牌"></span>';
-  const n=t%9+1,suit=suitOf(t);let face='';
-  if(suit===1){
-    const positions={1:[5],2:[2,8],3:[1,5,9],4:[1,3,7,9],5:[1,3,5,7,9],6:[1,3,4,6,7,9],7:[1,2,3,4,6,7,9],8:[1,2,3,4,6,7,8,9],9:[1,2,3,4,5,6,7,8,9]}[n];
-    face='<span class="pips">'+positions.map(pos=>`<i class="pip ${n===1?'big':''} ${[5,6,7,8,9].includes(n)&&pos%3===2?'red':''}" style="grid-column:${(pos-1)%3+1};grid-row:${Math.floor((pos-1)/3)+1}"></i>`).join('')+'</span>';
-  }else face=`<span class="num">${['一','二','三','四','五','六','七','八','九'][n-1]}</span><span class="suit-char">${SUITS[suit]}</span>`;
+  if(t<0)return '<span class="tile classic-tile hidden-tile" aria-label="暗牌"></span>';
   const tag=button?'button':'span';
-  return `<${tag} class="tile ${suit===2?'bamboo':''} ${classes}" ${button?`data-tile="${t}" data-index="${index}" ${disabled?'disabled':''}`:''} aria-label="${tileName(t)}" ${button?'title="'+tileName(t)+'"':''}>${face}</${tag}>`;
+  return `<${tag} class="tile classic-tile ${classes}" ${button?`data-tile="${t}" data-index="${index}" ${disabled?'disabled':''}`:''} aria-label="${tileName(t)}" ${button?'title="'+tileName(t)+'"':''}>${renderTileFace(t)}</${tag}>`;
 }
 function toast(text){$('#toast').textContent=text;$('#toast').classList.add('visible');clearTimeout(toastTimer);toastTimer=setTimeout(()=>$('#toast').classList.remove('visible'),2800);}
 function sound(kind='tile'){
@@ -95,13 +91,13 @@ function renderGame(){
   let drawnIndex=-1;if(myTurn&&g.lastDraw!==null)drawnIndex=me.hand.lastIndexOf(g.lastDraw);
   const actions=g.phase==='claim'?`${g.pending.options.map(a=>`<button class="action-button ${a==='hu'?'hu':''}" data-claim="${a}">${{pong:'碰',kong:'杠',hu:'胡'}[a]}</button>`).join('')}<button class="action-button pass" data-claim="pass">过</button>`:`${canHu?'<button class="action-button hu" data-action="hu">胡</button>':''}${kongs.map(t=>`<button class="action-button" data-kong="${t}" title="暗杠${tileName(t)}">杠</button>`).join('')}`;
   $('#main').innerHTML=`<div class="game-toolbar"><div class="game-title"><button class="back-button" data-view="lobby" aria-label="保存并返回大厅">${icon('back')}</button><h1>${g.room}</h1><span class="practice-label" id="connection-status">${g.online?connectionLabel():"单机 · 智能牌友"}</span></div><div class="game-toolbar-right"><span class="room-detail">四川血战 · ${g.base} 底分</span><button data-action="quick-rules">${icon('help')}规则</button><button data-action="fullscreen" aria-label="全屏牌桌">${icon('expand')}</button></div></div>
-  <div class="game-layout"><div class="table-wrap"><section class="table" aria-label="四川麻将牌桌"><span class="turn-pill">血战到底 · 第 ${g.turn} 手</span><div class="table-logo"><strong>雀友</strong><small>MAHJONG CLUB</small></div>${playerPanel(g.players[2],'north')}${playerPanel(g.players[1],'east')}${playerPanel(g.players[3],'west')}${playerPanel(me,'south')}${playerBacks(g.players[2],'north')}${playerBacks(g.players[1],'east')}${playerBacks(g.players[3],'west')}${playerDiscards(g.players[2],'north')}${playerDiscards(g.players[1],'east')}${playerDiscards(g.players[3],'west')}${playerDiscards(me,'south')}
+  <div class="game-layout"><div class="table-wrap"><section class="table" data-meld-count="${me.melds.length}" aria-label="四川麻将牌桌"><span class="turn-pill">血战到底 · 第 ${g.turn} 手</span><div class="table-logo"><strong>雀友</strong><small>MAHJONG CLUB</small></div>${playerPanel(g.players[2],'north')}${playerPanel(g.players[1],'east')}${playerPanel(g.players[3],'west')}${playerPanel(me,'south')}${playerBacks(g.players[2],'north')}${playerBacks(g.players[1],'east')}${playerBacks(g.players[3],'west')}${playerDiscards(g.players[2],'north')}${playerDiscards(g.players[1],'east')}${playerDiscards(g.players[3],'west')}${playerDiscards(me,'south')}
   <div class="compass" aria-label="余牌${g.wall.length}张"><span class="north ${g.current===2?'active':''}">西</span><span class="east ${g.current===1?'active':''}">南</span><span class="south ${g.current===0?'active':''}">东</span><span class="west ${g.current===3?'active':''}">北</span><span class="wall-count">${g.wall.length}</span></div><div class="table-watermark">余牌 · ${g.winners.length} / 3 家已胡</div>${meldDisplay(me)}
   <div class="timer-pill">${icon('clock')}<span id="turn-status">${esc(status)}</span>${(myTurn||g.phase==='claim')?'<b id="countdown">25</b>':''}</div>
   <div class="action-bar">${g.phase==='finished'?'<button class="action-button" data-action="result">查看结算</button>':actions}</div>
   <div class="hand-notice">${me.win?`${me.win.labels.join(' · ')} · 恭喜胡牌`:myTurn&&me.hand.some(t=>suitOf(t)===me.que)?`先打完${SUITS[me.que]}子，再安心做牌`:'定缺不吃牌 · 好牌慢慢来'}</div>
   <div class="hand-zone"><div class="hand" aria-label="你的手牌">${me.hand.map((t,i)=>tile(t,`${!legal.includes(t)&&myTurn?'illegal':''} ${suitOf(t)===me.que?'que-tile':''} ${i===drawnIndex?'drawn':''} ${g.phase==='exchange'&&g.exchangeSelection.includes(i)?'selected':''}`,true,!myTurn&&g.phase!=='exchange',i)).join('')}</div></div>
-  ${g.phase==='que'?renderQue():g.phase==='exchange'?renderExchange():''}</section><div class="game-controls"><div class="control-group"><button data-action="hint">${icon('spark')}提示</button><button data-action="sort">${icon('sort')}理牌</button><button class="${isAuto?'on':''}" data-action="auto" aria-pressed="${isAuto}">${icon('auto')}托管${isAuto?'中':''}</button></div><span>积分实时结算 · 可随时返回大厅</span></div></div>
+  ${g.phase==='que'?renderQue():g.phase==='exchange'?renderExchange():''}</section><div class="game-controls"><div class="control-group"><button data-action="hint" title="出牌提示">${icon('spark')}提示</button><button data-action="sort" title="整理手牌">${icon('sort')}理牌</button><button class="${isAuto?'on':''}" data-action="auto" aria-pressed="${isAuto}">${icon('auto')}托管${isAuto?'中':''}</button></div><span>积分实时结算 · 可随时返回大厅</span></div></div>
   <aside class="game-side"><section class="match-info"><h3>这一桌的时光</h3><div class="match-stat"><span>玩法</span><b>四川 · 血战到底</b></div><div class="match-stat"><span>底分</span><b>${g.base} 分</b></div><div class="match-stat"><span>你的定缺</span><b>${me.que<0?'待选择':SUITS[me.que]+'子'}</b></div><div class="match-stat"><span>已胡牌</span><b>${g.winners.length} / 3 人</b></div><p class="info-note">${g.online?"四位真人同步对局。<br>断线后会自动恢复座位。":"三位牌友均由电脑操作。<br>虚拟积分只记录在当前设备。"}</p></section><section class="log-panel"><h3>牌桌动态</h3>${g.events.slice(0,8).map(e=>`<div class="event ${e.type}">${esc(e.text)}</div>`).join('')}</section></aside></div>`;
   persistGame();
   if(g.phase==='finished'){commitResult();if(resultShown!==g.id){resultShown=g.id;setTimeout(showResult,450);}}

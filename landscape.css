@@ -1,0 +1,292 @@
+/* A full-screen table for short, wide phone viewports. */
+@media (orientation: landscape) and (max-height: 600px) {
+  body.in-game {
+    --hand-w: min(calc((100vw - 132px - env(safe-area-inset-left) - env(safe-area-inset-right)) / 14.4), 13.5dvh, 54px);
+    --hand-h: calc(var(--hand-w) * 1.42);
+    --river-w: min(20px, 2.05vw, 4.4dvh);
+    --river-h: calc(var(--river-w) * 1.34);
+    --edge-l: max(10px, env(safe-area-inset-left));
+    --edge-r: max(10px, env(safe-area-inset-right));
+    overflow: hidden;
+    overscroll-behavior: none;
+    background: #176e60;
+  }
+  body.in-game .sidebar,
+  body.in-game .topbar,
+  body.in-game .app-footer { display: none; }
+  body.in-game .app-shell { min-height: 0; height: 100dvh; }
+  body.in-game .workspace {
+    position: fixed;
+    inset: 0;
+    width: 100%;
+    height: 100dvh;
+    margin: 0;
+    overflow: hidden;
+  }
+  body.in-game #main {
+    position: relative;
+    width: 100%;
+    height: 100dvh;
+    max-width: none;
+    padding: 0;
+    margin: 0;
+    overflow: hidden;
+  }
+  body.in-game .game-layout { position: absolute; inset: 0; display: block; }
+  body.in-game .table-wrap { position: relative; width: 100%; height: 100%; }
+  body.in-game .table {
+    width: 100%;
+    height: 100%;
+    border: 0;
+    border-radius: 0;
+    box-shadow: none;
+    background: radial-gradient(ellipse at 50% 38%, #278d7b 0%, #207e6f 42%, #176454 100%);
+  }
+  body.in-game .table::before {
+    inset: 7px max(7px, env(safe-area-inset-right)) 7px max(7px, env(safe-area-inset-left));
+    border: 1px solid #a9d7b71c;
+    border-radius: 14px;
+  }
+  body.in-game .game-side { display: none; }
+  body.in-game .game-toolbar {
+    position: absolute;
+    z-index: 18;
+    top: max(4px, env(safe-area-inset-top));
+    left: var(--edge-l);
+    right: var(--edge-r);
+    height: 32px;
+    margin: 0;
+    gap: 8px;
+    color: #ecf5df;
+    pointer-events: none;
+  }
+  body.in-game .game-toolbar button { pointer-events: auto; }
+  body.in-game .game-title { gap: 8px; min-width: 0; }
+  body.in-game .game-title h1 { font-size: 12px; letter-spacing: 0; color: #e6f0dd; }
+  body.in-game .back-button {
+    width: 32px;
+    height: 32px;
+    border: 1px solid #b7d9b630;
+    border-radius: 50%;
+    background: #104c42a6;
+    color: #d8e9d0;
+  }
+  body.in-game .game-title .practice-label {
+    max-width: 100px;
+    padding: 3px 6px;
+    border: 0;
+    font-size: 7px;
+    color: #c1dcbc;
+    background: #154f414f;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  body.in-game .game-toolbar-right { gap: 12px; }
+  body.in-game .game-toolbar-right .room-detail { display: none; }
+  body.in-game .game-toolbar-right button {
+    min-width: 30px;
+    height: 32px;
+    padding: 5px;
+    font-size: 9px;
+    color: #d0e6c8;
+  }
+  body.in-game .game-toolbar-right button svg { width: 15px; height: 15px; }
+  body.in-game .game-controls {
+    position: absolute;
+    z-index: 18;
+    top: 42px;
+    right: var(--edge-r);
+    padding: 0;
+    gap: 0;
+  }
+  body.in-game .game-controls > span { display: none; }
+  body.in-game .control-group { gap: 6px; }
+  body.in-game .game-controls button {
+    height: 30px;
+    min-width: 40px;
+    padding: 6px 8px;
+    font-size: 9px;
+    color: #d3e9cd;
+    border: 1px solid #c4e2ba2e;
+    background: #104d43a6;
+    border-radius: 7px;
+  }
+  body.in-game .game-controls button.on { color: #ffe19a; border-color: #d9c17680; }
+  body.in-game .game-controls button svg { width: 12px; height: 12px; }
+  body.in-game .turn-pill {
+    left: calc(var(--edge-l) + 41px);
+    top: 72px;
+    padding: 3px 5px;
+    font-size: 7px;
+    background: transparent;
+    color: #badbc196;
+  }
+  body.in-game .player { gap: 6px; }
+  body.in-game .player .avatar { width: 32px; height: 32px; font-size: 17px; }
+  body.in-game .player-info > strong { font-size: 9px; line-height: 1.5; letter-spacing: 0; }
+  body.in-game .player-score { font-size: 8px; margin-top: 2px; }
+  body.in-game .que-badge { font-size: 7px; padding: 1px 3px; margin-left: 3px; }
+  body.in-game .player-north { top: 7px; left: 50%; transform: translateX(-50%); }
+  body.in-game .player-west { top: 42%; left: var(--edge-l); width: 48px; gap: 5px; }
+  body.in-game .player-east { top: 42%; right: var(--edge-r); width: 48px; gap: 5px; }
+  body.in-game .player-south {
+    bottom: max(15px, env(safe-area-inset-bottom));
+    left: var(--edge-l);
+    width: 48px;
+    gap: 5px;
+    flex-direction: column;
+    text-align: center;
+  }
+  body.in-game .backs { gap: 1px; }
+  body.in-game .backs-north { top: 49px; left: 50%; transform: translateX(-50%); }
+  body.in-game .backs-north .back-tile { width: 15px; height: 23px; border-radius: 2px; }
+  body.in-game .backs-west { top: 26%; left: calc(var(--edge-l) + 56px); }
+  body.in-game .backs-east { top: 26%; right: calc(var(--edge-r) + 56px); }
+  body.in-game .backs-west .back-tile,
+  body.in-game .backs-east .back-tile { width: 23px; height: 10px; border-radius: 2px; }
+  body.in-game .opponent-group { gap: 1px; margin-left: 4px; }
+  body.in-game .opponent-group .tile { width: 17px; height: 23px; }
+  body.in-game .backs-west .opponent-group,
+  body.in-game .backs-east .opponent-group { margin-left: 0; margin-top: 4px; }
+  body.in-game .backs-west .opponent-group .tile,
+  body.in-game .backs-east .opponent-group .tile { width: 23px; height: min(15px, 3.4dvh); }
+  body.in-game .discard-zone {
+    gap: 2px;
+    grid-template-columns: repeat(6, var(--river-w));
+  }
+  body.in-game .discard-zone .tile {
+    width: var(--river-w);
+    height: var(--river-h);
+    border-radius: 2px;
+  }
+  body.in-game .discard-north { top: 76px; left: 50%; transform: translateX(-50%); }
+  body.in-game .discard-south { bottom: calc(var(--hand-h) + 41px); left: 50%; transform: translateX(-50%); }
+  body.in-game .discard-west,
+  body.in-game .discard-east { top: 47%; grid-template-columns: repeat(3, var(--river-w)); transform: translateY(-50%); }
+  body.in-game .discard-west { left: calc(12% + 26px); }
+  body.in-game .discard-east { right: calc(12% + 26px); }
+  body.in-game .compass { top: 47%; width: 52px; height: 52px; font-size: 8px; border-radius: 13px; background: #12594777; }
+  body.in-game .wall-count { font-size: 17px; }
+  body.in-game .table-logo { top: 47%; opacity: .7; }
+  body.in-game .table-logo strong { font-size: 36px; }
+  body.in-game .table-logo small,
+  body.in-game .table-watermark,
+  body.in-game .hand-notice { display: none; }
+  body.in-game .hand-zone {
+    bottom: max(10px, calc(env(safe-area-inset-bottom) + 5px));
+    left: calc(var(--edge-l) + 62px);
+    right: var(--edge-r);
+  }
+  body.in-game .hand {
+    flex-wrap: nowrap;
+    gap: 3px;
+    padding: 18px 0 7px;
+    min-height: 0;
+    max-width: none;
+    align-items: flex-end;
+    justify-content: center;
+  }
+  body.in-game .hand .tile {
+    width: var(--hand-w);
+    max-width: none;
+    height: var(--hand-h);
+    border-radius: 5px;
+  }
+  body.in-game .hand .tile.drawn { margin-left: 8px; }
+  body.in-game .hand .tile.selected { transform: translateY(-14px); }
+  body.in-game .table:not([data-meld-count="0"]) .hand { justify-content: flex-end; }
+  body.in-game .melds {
+    left: calc(var(--edge-l) + 87px);
+    bottom: max(17px, calc(env(safe-area-inset-bottom) + 12px));
+    gap: 7px;
+  }
+  body.in-game .meld .tile { width: calc(var(--hand-w) * .7); height: calc(var(--hand-h) * .7); }
+  body.in-game .action-bar {
+    bottom: calc(var(--hand-h) + 44px);
+    right: calc(var(--edge-r) + 7px);
+    gap: 8px;
+  }
+  body.in-game .action-button {
+    min-width: 48px;
+    height: 40px;
+    padding: 6px 15px;
+    font-size: 21px;
+    border-radius: 50%;
+    background: linear-gradient(#fff3b3, #e7b64e);
+    border: 1px solid #fff1b8;
+    box-shadow: 0 3px 0 #a67a29, 0 4px 12px #123e3b44;
+    color: #70471e;
+  }
+  body.in-game .action-button.pass { font: 11px var(--sans); min-width: 42px; color: #e1edcf; background: #155b4d; border-color: #99bd8e66; box-shadow: 0 2px 0 #104a40; }
+  body.in-game .timer-pill {
+    top: 46px;
+    bottom: auto;
+    left: calc(var(--edge-l) + 41px);
+    transform: none;
+    max-width: 160px;
+    gap: 5px;
+    height: 17px;
+    font-size: 8px;
+    color: #d1e3bb;
+  }
+  body.in-game .timer-pill svg { width: 11px; height: 11px; flex-shrink: 0; }
+  body.in-game #turn-status { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  body.in-game #countdown { color: #ffda76; flex-shrink: 0; }
+  body.in-game .que-overlay:not(.exchange-overlay) { padding: 0; background: #0e3c2a6e; backdrop-filter: blur(2px); }
+  body.in-game .que-dialog { width: 330px; padding: 16px 24px; }
+  body.in-game .que-dialog .eyebrow { display: none; }
+  body.in-game .que-dialog h2 { font-size: 21px; margin: 0 0 7px; }
+  body.in-game .que-dialog p { font-size: 10px; margin: 0 0 13px; line-height: 1.6; }
+  body.in-game .que-options { gap: 23px; }
+  body.in-game .que-option { gap: 7px; font-size: 9px; }
+  body.in-game .que-option .tile { width: 46px; height: 63px; }
+  body.in-game .que-option small { font-size: 8px; height: 12px; }
+  body.in-game .que-hand-preview { margin-top: 10px; padding-top: 9px; font-size: 8px; }
+  body.in-game .exchange-overlay {
+    inset: 76px max(85px, env(safe-area-inset-right)) calc(var(--hand-h) + 43px) max(85px, env(safe-area-inset-left));
+    padding: 0;
+    pointer-events: none;
+    background: transparent;
+    backdrop-filter: none;
+  }
+  body.in-game .exchange-overlay .que-dialog { width: 350px; padding: 15px 22px; pointer-events: auto; }
+  body.in-game .exchange-overlay h2 { font-size: 20px; }
+  body.in-game .exchange-overlay p { margin-bottom: 10px; font-size: 9px; }
+  body.in-game .exchange-counter { display: inline-block; margin: 0 12px 0 0; font-size: 9px; }
+  body.in-game .exchange-counter b { font-size: 23px; }
+  body.in-game .exchange-overlay .primary-button { display: inline-flex; margin: 0; font-size: 10px; padding: 9px 14px; }
+  body.in-game .exchange-overlay .text-button { margin: 9px auto 0; padding: 2px; font-size: 9px; }
+  body.in-game .toast { bottom: calc(var(--hand-h) + 18px); font-size: 10px; padding: 8px 16px; }
+  body.in-game .modal-backdrop { padding: 12px; }
+  body.in-game .modal { max-height: calc(100dvh - 24px); padding: 19px 25px; width: 470px; }
+  body.in-game .modal h2 { font-size: 21px; margin: 5px 0 9px; }
+  body.in-game .result-emblem { font-size: 35px; margin: 0; }
+  body.in-game .result-total { font-size: 26px; margin: 8px 0; }
+  body.in-game .result-list { margin: 12px 0; }
+  body.in-game .result-player { padding: 8px 0; }
+}
+
+@media (orientation: landscape) and (max-height: 600px) and (max-width: 740px) {
+  body.in-game .game-controls button { width: 30px; min-width: 30px; padding: 7px; font-size: 0; gap: 0; }
+  body.in-game .game-controls button svg { width: 14px; height: 14px; }
+}
+
+@media (orientation: landscape) and (max-height: 350px) {
+  body.in-game .compass { width: 34px; height: 34px; font-size: 6px; border-radius: 8px; }
+  body.in-game .wall-count { font-size: 12px; }
+  body.in-game .discard-north { top: 64px; }
+  body.in-game .backs-north { top: 40px; }
+  body.in-game .backs-north .back-tile { height: 20px; }
+  body.in-game .discard-south { bottom: calc(var(--hand-h) + 34px); }
+  body.in-game .player-north { top: 4px; }
+  body.in-game .player .avatar { width: 27px; height: 27px; font-size: 14px; }
+  body.in-game .que-dialog { padding: 12px 22px; }
+  body.in-game .que-dialog h2 { font-size: 18px; }
+  body.in-game .que-dialog p { font-size: 9px; margin-bottom: 9px; }
+  body.in-game .que-option .tile { width: 39px; height: 53px; }
+  body.in-game .que-hand-preview { display: none; }
+  body.in-game .exchange-overlay { top: 62px; }
+  body.in-game .exchange-overlay .que-dialog { padding: 12px 20px; }
+  body.in-game .exchange-overlay h2 { font-size: 18px; }
+}
