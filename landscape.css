@@ -290,3 +290,51 @@
   body.in-game .exchange-overlay .que-dialog { padding: 12px 20px; }
   body.in-game .exchange-overlay h2 { font-size: 18px; }
 }
+
+/* Keep every lobby tab reachable before the game starts, even on short phones. */
+@media (orientation: landscape) and (max-height: 600px) {
+  body:not(.in-game) .sidebar {
+    inset: 0 auto 0 0;
+    width: 64px;
+    height: 100dvh;
+    flex-direction: column;
+    padding: 10px 6px;
+    border-top: 0;
+    border-right: 1px solid var(--line);
+  }
+  body:not(.in-game) .sidebar > .brand { display: flex; justify-content: center; padding: 0; }
+  body:not(.in-game) .brand-tile { width: 26px; height: 31px; font-size: 23px; }
+  body:not(.in-game) .brand-name,
+  body:not(.in-game) .nav-caption,
+  body:not(.in-game) .sidebar-note,
+  body:not(.in-game) .sidebar-footer,
+  body:not(.in-game) .install-link { display: none; }
+  body:not(.in-game) .sidebar nav {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    width: 100%;
+    min-height: 0;
+    margin: 12px 0 0;
+    gap: 3px;
+    overflow-y: auto;
+  }
+  body:not(.in-game) .nav-item {
+    flex-direction: column;
+    flex-shrink: 0;
+    gap: 3px;
+    width: 100%;
+    min-width: 0;
+    height: 44px;
+    padding: 6px 4px;
+    font-size: 8.5px;
+    line-height: 12px;
+    letter-spacing: 0;
+    border-radius: 7px;
+  }
+  body:not(.in-game) .nav-item svg { width: 17px; height: 17px; }
+  body:not(.in-game) .nav-item.active::after { display: none; }
+  body:not(.in-game) .workspace { margin: 0 0 0 64px; width: calc(100% - 64px); }
+  body:not(.in-game) .topbar { height: 50px; padding: 0 18px; }
+  body:not(.in-game) #main { padding: 18px 20px 0; }
+}
